@@ -12,9 +12,26 @@ import android.view.ViewGroup;
 import com.app.numberprediction.R;
 import com.app.numberprediction.constant.AppConstant;
 import com.app.numberprediction.fragments.Nest1Fragment;
+import com.app.numberprediction.fragments.nestedb.BFragment;
+import com.app.numberprediction.fragments.nestedc.CFragment;
 
 public class TabBFragment extends Fragment {
 
+    public TabBFragment() {
+        // Required empty public constructor
+    }
+
+    public static TabBFragment newInstance() {
+        TabBFragment fragment = new TabBFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,31 +58,31 @@ public class TabBFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return Nest1Fragment.newInstance(1);
+                    return BFragment.newInstance(1);
                 case 1:
-                    return Nest1Fragment.newInstance(2);
+                    return BFragment.newInstance(2);
                 case 2:
-                    return Nest1Fragment.newInstance(3);
+                    return BFragment.newInstance(3);
                 case 3:
-                    return Nest1Fragment.newInstance(1);
+                    return BFragment.newInstance(1);
                 case 4:
-                    return Nest1Fragment.newInstance(2);
+                    return BFragment.newInstance(2);
                 case 5:
-                    return Nest1Fragment.newInstance(3);
+                    return BFragment.newInstance(3);
                 case 6:
-                    return Nest1Fragment.newInstance(1);
+                    return BFragment.newInstance(1);
                 case 7:
-                    return Nest1Fragment.newInstance(2);
+                    return BFragment.newInstance(2);
                 case 8:
-                    return Nest1Fragment.newInstance(3);
+                    return BFragment.newInstance(3);
                 case 9:
-                    return Nest1Fragment.newInstance(1);
+                    return BFragment.newInstance(1);
                 case 10:
-                    return Nest1Fragment.newInstance(2);
+                    return BFragment.newInstance(2);
                 case 11:
-                    return Nest1Fragment.newInstance(3);
+                    return BFragment.newInstance(3);
                     default:
-                        return Nest1Fragment.newInstance(4);
+                        return BFragment.newInstance(4);
             }
 
         }

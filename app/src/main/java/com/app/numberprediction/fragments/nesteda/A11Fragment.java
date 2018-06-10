@@ -1,11 +1,10 @@
 package com.app.numberprediction.fragments.nesteda;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,24 +15,31 @@ import android.widget.TextView;
 
 import com.app.numberprediction.R;
 import com.app.numberprediction.constant.AppConstant;
+import com.app.numberprediction.utils.AppUtils;
 
 public class A11Fragment extends Fragment {
 
-    private TableLayout stk;
+    private static final String TAG = A11Fragment.class.getName();
+    public TableLayout tableLayout;
     private TableRow header;
     private TextView indexColumn;
     private TextView sColumn;
     private TextView dColumn;
+    private static A11Fragment[] a11Fragments = new A11Fragment[AppConstant.INTABS_INDEX.length];
 
     public A11Fragment() {
         // Required empty public constructor
     }
 
+    public static TableLayout getTable(int position) {
+        return a11Fragments[position].tableLayout;
+    }
+
     public static A11Fragment newInstance(int position) {
-        A11Fragment fragment = new A11Fragment();
+        a11Fragments[position] = new A11Fragment();
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        a11Fragments[position].setArguments(args);
+        return a11Fragments[position];
     }
 
     @Override
@@ -47,7 +53,7 @@ public class A11Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_a11, container, false);
-        stk = (TableLayout) view.findViewById(R.id.table_main);
+        tableLayout = (TableLayout) view.findViewById(R.id.table_main);
         init(getContext());
         return view;
     }
@@ -66,73 +72,130 @@ public class A11Fragment extends Fragment {
         super.onDetach();
     }
 
-    public void setTextViewProperty(TextView textView, String text){
-        textView.setText(text);
-        textView.setTextColor(Color.WHITE);
-        textView.setGravity(Gravity.CENTER);
-
-    }
-
-    public void setEditTextViewProperty(EditText editText, String text){
-        editText.setText(text);
-        editText.setTextColor(Color.WHITE);
-        editText.setGravity(Gravity.CENTER);
-    }
-    public void initalizeHeader(Context context){
+    public void initalizeHeader(Context context) {
         header = new TableRow(context);
         indexColumn = new TextView(context);
-        setTextViewProperty(indexColumn,AppConstant.INDEX);
+        AppUtils.setTextViewProperty(indexColumn, AppConstant.INDEX);
         header.addView(indexColumn);
         sColumn = new TextView(context);
-        setTextViewProperty(sColumn,AppConstant.S);
+        AppUtils.setTextViewProperty(sColumn, AppConstant.S);
         header.addView(sColumn);
         dColumn = new TextView(context);
-        setTextViewProperty(dColumn,AppConstant.D);
+        AppUtils.setTextViewProperty(dColumn, AppConstant.D);
         header.addView(dColumn);
-        //
-//        characterTabs[0]=new CharacterTab();
-//        characterTabs[0].setSubTabTitles();
-//        List<SubTab> subTabs=new ArrayList<>();
-//        for(int index=0;index<AppConstant.INTABS_INDEX.length;index++){
-//            SubTab subTab=new SubTab();
-//            subTab.setIndex(AppConstant.INDEX);
-//            subTab.setS(AppConstant.S);
-//            subTab.setD(AppConstant.D);
-//            subTab.setRowData(A11Data);
-//            subTabs.add(subTab);
-//        }
-//        characterTabs[0].setSubTabs(subTabs);
         //0 to 9 elements declared
-        for(int index=0;index<AppConstant.NUMS_INDEX.length;index++){
+        for (int index = 0; index < AppConstant.NUMS_INDEX.length; index++) {
             TextView textView = new TextView(context);
-            setTextViewProperty(textView,"A"+AppConstant.NUMS_INDEX[index]);
+            AppUtils.setTextViewProperty(textView, "A" + AppConstant.NUMS_INDEX[index]);
             header.addView(textView);
         }
-        stk.addView(header);
+        tableLayout.addView(header);
     }
 
     public void init(Context context) {
         initalizeHeader(context);
-        for (int i = 0; i < AppConstant.FIFTY_SIZE; i++) {
+        Log.d(TAG, "size: " + tableLayout.getChildCount());
+        for (int i = 0; i < AppConstant.TEN_SIZE; i++) {
             TableRow tbrow = new TableRow(context);
-            TextView t1v = new TextView(context);
-            setTextViewProperty(t1v,"" + i);
-            tbrow.addView(t1v);
-            EditText t2v = new EditText(context);
-            setEditTextViewProperty(t2v," " + i);
-            tbrow.addView(t2v);
-            EditText t3v = new EditText(context);
-            setEditTextViewProperty(t3v,"" + i);
-            tbrow.addView(t3v);
-            for(int index = 0; index< AppConstant.NUMS_INDEX.length; index++){
-                EditText editText = new EditText(context);
-                setEditTextViewProperty(editText,index+"");
-                tbrow.addView(editText);
+            TextView indexText = new TextView(context);
+            AppUtils.setTextViewProperty(indexText, "" + i);
+            tbrow.addView(indexText);
+            EditText sEditText = new EditText(context);
+            sEditText.setTag(AppConstant.S);
+            AppUtils.setEditTextViewProperty(sEditText, " " + i);
+            tbrow.addView(sEditText);
+            EditText dEditText = new EditText(context);
+            AppUtils.setEditTextViewProperty(dEditText, "" + i);
+            tbrow.addView(dEditText);
+            for (int index = 0; index < AppConstant.NUMS_INDEX.length; index++) {
+                EditText rowEditText = new EditText(context);
+                AppUtils.setEditTextViewProperty(rowEditText, "");
+                tbrow.addView(rowEditText);
             }
-            stk.addView(tbrow);
+            tableLayout.addView(tbrow);
         }
-
+        Log.d(TAG, "size: " + tableLayout.getChildCount());
+        showData();
     }
 
+    public void showData() {
+        for (int index = 1; index < AppConstant.TEN_SIZE + 1; index++) {
+//            fillRowData(index);
+        }
+    }
+
+    public void fillRowData(int index, int sValue, int dValue) {
+        TableRow tableRow = (TableRow) tableLayout.getChildAt(index);
+        if (tableRow != null && tableRow.getChildAt(0) instanceof TextView) {
+            TextView tv = (TextView) tableRow.getChildAt(0);
+            Log.d(TAG, tv.getText().toString());
+        }
+    }
+
+    public void fillRowDataNum(int index) {
+        TableRow tableRow = (TableRow) tableLayout.getChildAt(index);
+        if (tableRow != null && tableRow.getChildAt(0) instanceof TextView) {
+            TextView tv = (TextView) tableRow.getChildAt(0);
+            Log.d(TAG, tv.getText().toString());
+        }
+    }
+
+    public void fillRowDataSAndD(int sValue, int dValue) {
+        for (int index = 1; index < AppConstant.INTABS_INDEX.length; index++) {
+
+        }
+    }
+
+    public void fillRowDataInEachTab(int sValue, int dValue) {
+        TableRow tableRowFirst = (TableRow) tableLayout.getChildAt(0);
+        EditText sourceZeroIndex = null;
+        EditText sourceFirstIndex = null;
+        EditText sourceSecondIndex = null;
+        EditText sourceThirdIndex = null;
+        EditText sourceFourthIndex = null;
+        EditText sourceFifthIndex = null;
+        EditText sourceSixthIndex = null;
+        EditText sourceSeventIndex = null;
+        EditText sourceEighthIndex = null;
+        EditText sourceNinthIndex = null;
+        if(tableRowFirst!=null) {
+            sourceZeroIndex = (EditText) tableRowFirst.getChildAt(3);
+            sourceFirstIndex = (EditText) tableRowFirst.getChildAt(4);
+            sourceSecondIndex = (EditText) tableRowFirst.getChildAt(5);
+            sourceThirdIndex = (EditText) tableRowFirst.getChildAt(6);
+            sourceFourthIndex = (EditText) tableRowFirst.getChildAt(7);
+            sourceFifthIndex = (EditText) tableRowFirst.getChildAt(8);
+            sourceSixthIndex = (EditText) tableRowFirst.getChildAt(9);
+            sourceSeventIndex = (EditText) tableRowFirst.getChildAt(10);
+            sourceEighthIndex = (EditText) tableRowFirst.getChildAt(11);
+            sourceNinthIndex = (EditText) tableRowFirst.getChildAt(12);
+        }
+        for(int index=1;index<AppConstant.NUMS_INDEX.length;index++){
+            TableRow tableRow = (TableRow) tableLayout.getChildAt(index);
+            if(tableRow!=null) {
+                EditText zeroIndex = (EditText) tableRow.getChildAt(3);
+                EditText firstIndex = (EditText) tableRow.getChildAt(4);
+                EditText secondIndex = (EditText) tableRow.getChildAt(5);
+                EditText thirdIndex = (EditText) tableRow.getChildAt(6);
+                EditText fourthIndex = (EditText) tableRow.getChildAt(7);
+                EditText fifthIndex = (EditText) tableRow.getChildAt(8);
+                EditText sixthIndex = (EditText) tableRow.getChildAt(9);
+                EditText seventIndex = (EditText) tableRow.getChildAt(10);
+                EditText eighthIndex = (EditText) tableRow.getChildAt(11);
+                EditText ninthIndex = (EditText) tableRow.getChildAt(12);
+
+                AppUtils.copyValue(sourceZeroIndex,zeroIndex);
+                AppUtils.copyValue(sourceFirstIndex,firstIndex);
+                AppUtils.copyValue(sourceSecondIndex,secondIndex);
+                AppUtils.copyValue(sourceThirdIndex,thirdIndex);
+                AppUtils.copyValue(sourceFourthIndex,fourthIndex);
+                AppUtils.copyValue(sourceFifthIndex,fifthIndex);
+                AppUtils.copyValue(sourceSixthIndex,sixthIndex);
+                AppUtils.copyValue(sourceSeventIndex,seventIndex);
+                AppUtils.copyValue(sourceEighthIndex,eighthIndex);
+                AppUtils.copyValue(sourceNinthIndex,ninthIndex);
+            }
+        }
+    }
 
 }
