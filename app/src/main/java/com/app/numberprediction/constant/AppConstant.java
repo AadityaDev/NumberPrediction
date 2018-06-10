@@ -18,6 +18,7 @@ public class AppConstant {
     public static final String INDEX = "Index";
     public static final String S = "S";
     public static final String D = "D";
+    public static final int SUBTABS_SIZE = 12;
     public static final String[] NUMS_INDEX = { "0" , "1", "2" , "3", "4" , "5", "6" , "7", "8", "9" };
     public static final String[] INTABS_INDEX = { "11" , "21", "22" , "23", "24" , "25", "31" , "34", "41", "51", "61", "71" };
 
