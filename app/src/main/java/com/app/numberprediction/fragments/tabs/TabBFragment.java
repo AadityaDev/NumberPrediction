@@ -1,4 +1,4 @@
-package com.app.numberprediction.fragments;
+package com.app.numberprediction.fragments.tabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.numberprediction.R;
+import com.app.numberprediction.constant.AppConstant;
+import com.app.numberprediction.fragments.Nest1Fragment;
 
-public class Tab2Fragment extends Fragment {
+public class TabBFragment extends Fragment {
 
 
     @Override
@@ -19,7 +21,7 @@ public class Tab2Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.fragment_tab2, container, false);
+        View view = inflater.inflate(R.layout.fragment_tabb, container, false);
         ViewPager mViewPager = (ViewPager) view.findViewById(R.id.container_main);
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -71,44 +73,40 @@ public class Tab2Fragment extends Fragment {
         @Override
         public int getCount() {
             // Show 4 total pages.
-            return 12;
+            return AppConstant.INTABS_INDEX.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-
             switch (position) {
                 case 0:
-                    return "Nested 1";
+                    return AppConstant.INTABS_INDEX[0];
                 case 1:
-                    return "Nested 2";
+                    return AppConstant.INTABS_INDEX[1];
                 case 2:
-                    return "Nested 3";
+                    return AppConstant.INTABS_INDEX[2];
                 case 3:
-                    return "Nested 3";
+                    return AppConstant.INTABS_INDEX[3];
                 case 4:
-                    return "Nested 4";
+                    return AppConstant.INTABS_INDEX[4];
                 case 5:
-                    return "Nested 5";
+                    return AppConstant.INTABS_INDEX[5];
                 case 6:
-                    return "Nested 6";
+                    return AppConstant.INTABS_INDEX[6];
                 case 7:
-                    return "Nested 7";
+                    return AppConstant.INTABS_INDEX[7];
                 case 8:
-                    return "Nested 8";
+                    return AppConstant.INTABS_INDEX[8];
                 case 9:
-                    return "Nested 9";
+                    return AppConstant.INTABS_INDEX[9];
                 case 10:
-                    return "Nested 10";
+                    return AppConstant.INTABS_INDEX[10];
                 case 11:
-                    return "Nested 11";
-                    default:
-                    return "Nested 4";
+                    return AppConstant.INTABS_INDEX[11];
+                default:
+                    return AppConstant.INTABS_INDEX[12];
             }
-
-
         }
     }
-
 
 }
